@@ -16,5 +16,6 @@ variable "environment" {
 
 }
 variable "application" {
+  default = ""
 
 }
