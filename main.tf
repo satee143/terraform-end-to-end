@@ -77,6 +77,12 @@ resource "aws_route" "public-route" {
   gateway_id             = aws_internet_gateway.igw.id
 }
 
+resource "aws_route" "private-route" {
+  route_table_id         = aws_route_table.public-route-table.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_nat_gateway.example.id
+}
+
 resource "aws_route_table_association" "public" {
   count = length(var.public_subnet_cidrs)
   subnet_id      = aws_subnet.public-subnets[count.index].id
