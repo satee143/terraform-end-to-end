@@ -37,7 +37,7 @@ resource "aws_subnet" "private-subnets" {
   availability_zone       = local.az_names[count.index]
   map_public_ip_on_launch = true
   tags = merge(var.common_tags, var.private_subnet_tags,
-    { Name = "${local.resource_name}-public-${local.az_names[count.index]}" })
+    { Name = "${local.resource_name}-private-${local.az_names[count.index]}" })
 }
 
 resource "aws_subnet" "database-subnets" {
@@ -47,7 +47,7 @@ resource "aws_subnet" "database-subnets" {
   availability_zone       = local.az_names[count.index]
   map_public_ip_on_launch = true
   tags = merge(var.common_tags, var.database_subnet_tags,
-    { Name = "${local.resource_name}-public-${local.az_names[count.index]}" })
+    { Name = "${local.resource_name}-database-${local.az_names[count.index]}" })
 }
 
 
