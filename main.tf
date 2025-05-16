@@ -51,3 +51,40 @@ resource "aws_subnet" "database-subnets" {
 }
 
 
+resource "aws_route_table" "public-route-table" {
+  vpc_id = aws_vpc.main.id
+
+  tags = merge(var.common_tags,
+    {
+      Name = "${local.resource_name}-public-route-table"
+
+    })
+}
+
+resource "aws_route_table" "private-route-table" {
+  vpc_id = aws_vpc.main.id
+
+  tags = merge(var.common_tags,
+    {
+      Name = "${local.resource_name}-private-route-table"
+
+    })
+}
+
+resource "aws_route" "public-route" {
+  route_table_id         = aws_route_table.public-route-table.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.igw.id
+}
+
+resource "aws_route_table_association" "public" {
+  count = length(var.public_subnet_cidrs)
+  subnet_id      = aws_subnet.public-subnets[count.index].id
+  route_table_id = aws_route_table.public-route-table.id
+}
+
+resource "aws_route_table_association" "private" {
+  count = length(var.private_subnet_cidrs)
+  subnet_id      = aws_subnet.private-subnets[count.index].id
+  route_table_id = aws_route_table.private-route-table.id
+}
