@@ -20,8 +20,12 @@ output "public-route-table_id" {
 output "private-route-table_id" {
   value = aws_route_table.private-route-table.id
 }
-output "eip" {
-  value = aws_eip.eip
+output "eip_id" {
+  value = aws_eip.eip.id
 }
+output "eip_ip" {
+  value = aws_eip.eip.public_ip
+}
+
 
 

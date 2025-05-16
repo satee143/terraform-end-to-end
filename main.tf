@@ -91,4 +91,9 @@ resource "aws_route_table_association" "private" {
 
 resource "aws_eip" "eip" {
   domain = "vpc"
+  tags = merge(var.common_tags,
+    {
+      Name = "${local.resource_name}-eip"
+
+    })
 }
