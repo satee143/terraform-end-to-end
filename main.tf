@@ -19,38 +19,35 @@ resource "aws_internet_gateway" "igw" {
   tags = merge(var.common_tags, var.igw_tags,
     { Name = local.resource_name })
 }
-resource "random_shuffle" "az" {
-  input        = data.aws_availability_zones.aws_avail_zones
-  result_count = 1
-}
+
 resource "aws_subnet" "public-subnets" {
   count = length(var.public_subnet_cidrs)
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.public_subnet_cidrs[count.index]
-  availability_zone       = random_shuffle.az.result
+  availability_zone       = local.az_names[count.index]
   map_public_ip_on_launch = true
   tags = merge(var.common_tags, var.public_subnet_tags,
-    { Name = "${local.resource_name}-public-${random_shuffle.az.result}" })
+    { Name = "${local.resource_name}-public-${local.az_names[count.index]}" })
 }
 
 resource "aws_subnet" "private-subnets" {
   count = length(var.private_subnet_cidrs)
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.private_subnet_cidrs[count.index]
-  availability_zone       = random_shuffle.az.result
+  availability_zone       = local.az_names[count.index]
   map_public_ip_on_launch = true
   tags = merge(var.common_tags, var.private_subnet_tags,
-    { Name = "${local.resource_name}-public-${random_shuffle.az.result}" })
+    { Name = "${local.resource_name}-public-${local.az_names[count.index]}" })
 }
 
 resource "aws_subnet" "database-subnets" {
   count = length(var.database_subnet_cidrs)
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.database_subnet_cidrs[count.index]
-  availability_zone       = random_shuffle.az.result
+  availability_zone       = local.az_names[count.index]
   map_public_ip_on_launch = true
   tags = merge(var.common_tags, var.database_subnet_tags,
-    { Name = "${local.resource_name}-public-${random_shuffle.az.result}" })
+    { Name = "${local.resource_name}-public-${local.az_names[count.index]}" })
 }
 
 
