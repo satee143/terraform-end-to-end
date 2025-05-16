@@ -97,3 +97,15 @@ resource "aws_eip" "eip" {
 
     })
 }
+
+resource "aws_nat_gateway" "example" {
+  allocation_id = aws_eip.eip.id
+  subnet_id     = aws_subnet.public-subnets[0].id
+
+  tags = merge(
+    var.common_tags,
+    {
+      Name = local.resource_name
+    }
+  )
+}

@@ -26,6 +26,9 @@ output "eip_id" {
 output "eip_ip" {
   value = aws_eip.eip.public_ip
 }
+output "nat_gateway" {
+  value = aws_nat_gateway.example
+}
 
 
 
