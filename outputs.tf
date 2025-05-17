@@ -20,8 +20,8 @@ output "public-route-table_id" {
 output "private-route-table_id" {
   value = aws_route_table.private-route-table.id
 }
-output "database-route-table_id" {
-  value = aws_route_table.database-route-table.id
+# output "database-route-table_id" {
+#   value = aws_route_table.database-route-table.id
 }
 output "eip_id" {
   value = aws_eip.eip.id
