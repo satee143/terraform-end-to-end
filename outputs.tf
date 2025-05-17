@@ -22,7 +22,7 @@ output "private-route-table_id" {
 }
 # output "database-route-table_id" {
 #   value = aws_route_table.database-route-table.id
-}
+# }
 output "eip_id" {
   value = aws_eip.eip.id
 }
